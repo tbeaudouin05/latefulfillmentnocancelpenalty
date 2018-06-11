@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<title>Late Fulfilment No Cancellation Penalty Tool</title>
+
+<head>
+    <style type="text/css">.error {color: red;}</style>
+</head>
+
+<body>
+    
+    <h1>Late Fulfilment No Cancellation Penalty Tool</h1>
+    <div>
+    <p class="error" >{{ .Error }}</p>
+    <p class="success" >{{ .Success }}</p>
+    </div>
+    <div>
+            <h3>User</h3>
+            <p><a href="../form/dateexception">Date Exception request</a></p>
+            <p><a href="../form/sellerdateexception">Seller Date Exception request</a></p>
+            <p><a href="../form/soiexception">Bob ID Sales Order Item Exception request</a></p>
+            <h3>Admin</h3>
+            <p><a href="../admin">Approve or reject Exception requests</a></p>
+            <p><a href="../admin/adduser">Add user</a></p>
+    </div>
+
+
+</body>

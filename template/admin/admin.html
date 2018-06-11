@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <style>
+
+  table tr:nth-child(even) {
+  background-color: #eee;
+  }
+  tr:nth-child(odd) {
+    background-color: #fff;
+  }  
+    table, th, td {
+        border: 1px solid black;
+        border-collapse: collapse;
+    }
+    th, td {
+        padding: 5px;
+    }
+    th, td {
+        text-align: center;
+    }
+
+    input[type=text], input[type=number], select {
+            width: 100%;
+            padding: 10px 15px;
+            margin: 5px 0;
+            display: inline;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        
+        button[type=submit] {
+            width: 100%;
+            background-color: #4CAF50;
+            color: white;
+            padding: 14px 20px;
+            margin: 8px 0;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        
+        button[type=submit]:hover {
+            background-color: #45a049;
+        }
+        
+        div {
+            border-radius: 3px;
+            background-color: #f2f2f2;
+            padding: 10px;
+        }
+    </style>
+ <title>Pending Exception Requests</title>
+</head>
+
+<body>
+    <ul>
+        <li style="display:inline-block;">
+           <p><a href="../">Home</a></p> 
+        </li>
+        <li style="display:inline-block; padding-left: 10px;">
+            <p><a href="../admin/adduser" >Add user</a></p>
+        </li>
+    </ul>
+  <h1>Pending Exception Requests</h1>
+  <form action="/admin" id="admin" method="post">
+  ID of Exception Request:<select id="IDExceptionRequest" name="IDExceptionRequest" form="admin">
+      <option value=""></option>
+      </select>
+  Accept or Reject? <select name="acceptReject" form="admin">
+      <option value=""></option>
+      <option value="Accept">Accept</option>
+      <option value="Reject">Reject</option>
+      </select>
+  <button type="submit"> Submit </button>
+  </form>
+  <!-- 
+    This section of the document specifies the table that will
+    be used to display the list of birds and their description
+   -->
+  <table>
+    <tr>
+      <th>ID Exception Request</th>
+			<th>Initiator</th>
+			<th>Seller Name</th>
+			<th>Start Date</th>
+			<th>End Date</th>
+			<th>BOB ID Sales Order Item</th>	
+      <th>Penalty Amount</th>
+      <th>Exception Status</th>
+			<th>Exception Reason</th>
+			
+    </tr>
+  </table>
+
+  <!-- 
+    Finally, the last section is the script that will
+    run on each page load to fetch the list of birds
+    and add them to our existing table
+   -->
+  <script>
+
+iDExceptionRequestSelectElement = document.querySelector("#IDExceptionRequest")
+      fetch("/admin/idexceptionrequest")
+      .then(iDExceptionRequestTableByte => iDExceptionRequestTableByte.json())
+      .then(iDExceptionRequestTableJSON => {
+        //Once we fetch the list, we iterate over it
+        iDExceptionRequestTableJSON.forEach(iDExceptionRequest => {
+
+          // create the <option> element and fill it
+          iDExceptionRequestOptionElement = document.createElement("option")
+          iDExceptionRequestOptionElement.value = iDExceptionRequest
+          iDExceptionRequestOptionElement.innerHTML = iDExceptionRequest
+
+          // Finally, add the option element to the select element itself
+          iDExceptionRequestSelectElement.appendChild(iDExceptionRequestOptionElement)
+        })
+      })
+
+
+
+    exceptionRequestTable = document.querySelector("table")
+    fetch("/admin/exceptionrequest")
+      .then(exceptionRequestTableByte => exceptionRequestTableByte.json())
+      .then(exceptionRequestTableJSON => {
+        //Once we fetch the list, we iterate over it
+        exceptionRequestTableJSON.forEach(exceptionRequest => {
+          // Create the table row
+          row = document.createElement("tr")
+          // Create the table data elements for the species and
+					// description columns
+          id_exception_request = document.createElement("td")
+          id_exception_request.innerHTML = exceptionRequest.id_lfnc_penalty_exception
+          initiator = document.createElement("td")
+          initiator.innerHTML = exceptionRequest.initiator
+          seller_name = document.createElement("td")
+          seller_name.innerHTML = exceptionRequest.seller_name
+          start_date = document.createElement("td")
+          start_date.innerHTML = exceptionRequest.start_date
+          end_date = document.createElement("td")
+          end_date.innerHTML = exceptionRequest.end_date
+          bob_id_sales_order_item = document.createElement("td")
+          bob_id_sales_order_item.innerHTML = exceptionRequest.bob_id_sales_order_item
+          amount = document.createElement("td")
+          amount.innerHTML = exceptionRequest.amount
+          lfnc_penalty_exception_status = document.createElement("td")
+          lfnc_penalty_exception_status.innerHTML = exceptionRequest.lfnc_penalty_exception_status
+          reason = document.createElement("td")
+          reason.innerHTML = exceptionRequest.reason
+          
+
+          // Add the data elements to the row
+          row.appendChild(id_exception_request)
+          row.appendChild(initiator)
+          row.appendChild(seller_name)
+          row.appendChild(start_date)
+          row.appendChild(end_date)
+          row.appendChild(bob_id_sales_order_item)
+          row.appendChild(amount)
+          row.appendChild(lfnc_penalty_exception_status)
+          row.appendChild(reason)
+          
+          // Finally, add the row element to the table itself
+          exceptionRequestTable.appendChild(row)
+        })
+      })
+  </script>
+</body>

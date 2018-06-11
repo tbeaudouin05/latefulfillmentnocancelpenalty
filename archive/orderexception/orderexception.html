@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+
+
+<head>
+<title>Order Exception Request</title>
+<style>
+        input[type=text], input[type=number], select {
+            width: 100%;
+            padding: 10px 15px;
+            margin: 5px 0;
+            display: inline;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        
+        button[type=submit] {
+            width: 100%;
+            background-color: #4CAF50;
+            color: white;
+            padding: 14px 20px;
+            margin: 8px 0;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        
+        button[type=submit]:hover {
+            background-color: #45a049;
+        }
+        
+        div {
+            border-radius: 3px;
+            background-color: #f2f2f2;
+            padding: 10px;
+        }
+        </style>
+
+<style type="text/css">.error {color: red;}</style>
+
+</head>
+
+<ul>
+<li style="display:inline-block;">
+<p><a href="../">Home</a></p> 
+</li>
+</ul>
+
+    <h1>Order Exception Request</h1>
+    <div>
+        <p class="error" >{{ .Error }}</p>
+    </div>
+
+    <form action="/orderexception" id="orderexception" method="post">
+        Order Number:<select id="OrderNr" name="OrderNr" form="orderexception" required>
+                <option value=""></option>
+                <option selected="selected">{{ .OrderNr }}</option>
+                    </select>
+
+        <button type="submit"> Submit </button>
+      </form>
+      
+      <script>
+
+      orderNrSelectElement = document.querySelector("#OrderNr")
+      fetch("/orderexception/ordernr")
+      .then(orderNrTableByte => orderNrTableByte.json())
+      .then(orderNrTableJSON => {
+        //Once we fetch the list, we iterate over it
+        orderNrTableJSON.forEach(orderNr => {
+
+          // create the <option> element and fill it
+          orderNrOptionElement = document.createElement("option")
+          orderNrOptionElement.value = orderNr
+          orderNrOptionElement.innerHTML = orderNr
+
+          // Finally, add the option element to the select element itself
+          orderNrSelectElement.appendChild(orderNrOptionElement)
+        })
+      })
+
+  </script>
+
+</body>
